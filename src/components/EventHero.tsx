@@ -57,7 +57,7 @@ export const EventHero = () => {
           <Button size="lg" className="bg-wedding-gold hover:bg-wedding-gold/90 text-wedding-primary font-semibold px-8 py-3 text-lg shadow-gold" onClick={() => navigate('/rsvp/abc123')}>
             RSVP Now
           </Button>
-          <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-wedding-primary px-8 py-3 text-lg" onClick={() => navigate('/gallery')}>
+          <Button variant="outline" size="lg" className="border-white text-wedding-primary hover:bg-white hover:text-wedding-primary px-8 py-3 text-lg" onClick={() => navigate('/gallery')}>
             View Gallery
           </Button>
         </div>
