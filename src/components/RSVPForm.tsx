@@ -100,7 +100,7 @@ export const RSVPForm = ({ maxGuests = 4, guestId }: RSVPFormProps) => {
               <Users className="w-8 h-8 text-white" />
             </div>
             <CardTitle className="text-3xl font-bold text-wedding-primary font-poppins">
-              RSVP for MJ's 25th Anniversary
+              RSVP for MJ's Wedding
             </CardTitle>
             <p className="text-muted-foreground">
               Please provide details for all guests attending ({guests.length}/{maxGuests})

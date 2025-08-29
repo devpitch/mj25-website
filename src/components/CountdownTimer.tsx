@@ -40,11 +40,12 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
   }, [targetDate]);
 
   if (timeLeft.length === 0) {
-    return (
-      <div className="text-center p-8 bg-gradient-gold rounded-2xl shadow-gold">
-        <h3 className="text-2xl font-bold text-white">The Day Is Here!</h3>
-      </div>
-    );
+    setTimeLeft([
+      { value: 0, label: 'Days' },
+      { value: 0, label: 'Hours' },
+      { value: 0, label: 'Minutes' },
+      { value: 0, label: 'Seconds' },
+    ]);
   }
 
   return (

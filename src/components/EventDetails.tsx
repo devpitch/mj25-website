@@ -11,10 +11,10 @@ const eventPhases = [
   },
   {
     icon: Music,
-    title: "Anniversary Ceremony", 
+    title: "Wedding Ceremony", 
     time: "4:30 PM - 5:30 PM",
     location: "Main Chapel",
-    description: "Renewal of vows and anniversary blessing"
+    description: "Wedding ceremony and blessing"
   },
   {
     icon: Utensils,

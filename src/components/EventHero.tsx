@@ -8,7 +8,7 @@ export const EventHero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden py-12">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-32 h-32 bg-wedding-gold rounded-full blur-3xl"></div>
@@ -21,7 +21,7 @@ export const EventHero = () => {
         <div className="mb-8">
           <img 
             src="/lovable-uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png" 
-            alt="MJ 25th Anniversary Logo" 
+            alt="MJ Wedding Logo" 
             className="w-32 h-32 mx-auto drop-shadow-2xl"
           />
         </div>
@@ -29,10 +29,10 @@ export const EventHero = () => {
         {/* Main heading */}
         <div className="mb-6">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 font-poppins">
-            MJ's 25th
+            MJ's Wedding
           </h1>
           <h2 className="text-2xl md:text-4xl text-white/90 font-light">
-            Anniversary Celebration
+            Wedding Celebration
           </h2>
           <div className="flex items-center justify-center gap-2 mt-4">
             <Heart className="w-6 h-6 text-wedding-gold" />
@@ -63,7 +63,7 @@ export const EventHero = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button 
             size="lg" 
-            className="bg-wedding-gold hover:bg-wedding-gold/90 text-wedding-primary font-semibold px-8 py-3 text-lg shadow-gold"
+            className="bg-wedding-gold hover:bg-wedding-gold/90 text-wedding-primary font-semibold px-8 py-3 text-lg shadow-gold rounded-full"
             onClick={() => navigate('/rsvp/abc123')}
           >
             RSVP Now
@@ -71,7 +71,7 @@ export const EventHero = () => {
           <Button 
             variant="outline" 
             size="lg"
-            className="border-white text-white hover:bg-white hover:text-wedding-primary px-8 py-3 text-lg"
+            className="border-white text-wedding-primary bg-white hover:bg-white/90 hover:text-wedding-primary px-8 py-3 text-lg rounded-full"
             onClick={() => navigate('/gallery')}
           >
             View Gallery
