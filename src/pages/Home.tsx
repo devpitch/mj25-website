@@ -1,7 +1,7 @@
 import { EventHero } from '@/components/EventHero';
 import { EventDetails } from '@/components/EventDetails';
 
-const Index = () => {
+const Home = () => {
   return (
     <div className="min-h-screen">
       <EventHero />
@@ -10,4 +10,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Home;
