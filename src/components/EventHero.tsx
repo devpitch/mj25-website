@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export const EventHero = () => {
   const eventDate = "2024-12-31T18:00:00";
   const navigate = useNavigate();
-  return <section className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden py-16">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-32 h-32 bg-wedding-gold rounded-full blur-3xl"></div>
@@ -16,7 +16,7 @@ export const EventHero = () => {
       <div className="container mx-auto px-4 text-center relative z-10">
         {/* Logo */}
         <div className="mb-8">
-          <img src="/lovable-uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png" alt="MJ 25th Anniversary Logo" className="w-32 h-32 mx-auto drop-shadow-2xl" />
+          <img src="/lovable-uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png" alt="MJ 25th Wedding Logo" className="w-32 h-32 mx-auto drop-shadow-2xl" />
         </div>
 
         {/* Main heading */}
@@ -24,9 +24,9 @@ export const EventHero = () => {
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 font-poppins">
             MJ's 25th
           </h1>
-          <h2 className="text-2xl md:text-4xl text-white/90 font-light">
-            Anniversary Celebration
-          </h2>
+           <h2 className="text-2xl md:text-4xl text-white/90 font-light">
+             Wedding Celebration
+           </h2>
           <div className="flex items-center justify-center gap-2 mt-4">
             <Heart className="w-6 h-6 text-wedding-gold" />
             <span className="text-wedding-gold font-medium">A Milestone Worth Celebrating</span>
