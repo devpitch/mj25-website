@@ -2,13 +2,10 @@ import { CountdownTimer } from './CountdownTimer';
 import { Button } from './ui/button';
 import { Calendar, MapPin, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
 export const EventHero = () => {
   const eventDate = "2024-12-31T18:00:00";
   const navigate = useNavigate();
-
-  return (
-    <section className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden py-12">
+  return <section className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-32 h-32 bg-wedding-gold rounded-full blur-3xl"></div>
@@ -19,20 +16,16 @@ export const EventHero = () => {
       <div className="container mx-auto px-4 text-center relative z-10">
         {/* Logo */}
         <div className="mb-8">
-          <img 
-            src="/lovable-uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png" 
-            alt="MJ Wedding Logo" 
-            className="w-32 h-32 mx-auto drop-shadow-2xl"
-          />
+          <img src="/lovable-uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png" alt="MJ 25th Anniversary Logo" className="w-32 h-32 mx-auto drop-shadow-2xl" />
         </div>
 
         {/* Main heading */}
         <div className="mb-6">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 font-poppins">
-            MJ's Wedding
+            MJ's 25th
           </h1>
           <h2 className="text-2xl md:text-4xl text-white/90 font-light">
-            Wedding Celebration
+            Anniversary Celebration
           </h2>
           <div className="flex items-center justify-center gap-2 mt-4">
             <Heart className="w-6 h-6 text-wedding-gold" />
@@ -45,11 +38,11 @@ export const EventHero = () => {
         <div className="mb-8 space-y-4">
           <div className="flex items-center justify-center gap-2 text-white/90">
             <Calendar className="w-5 h-5" />
-            <span className="text-lg">December 31st, 2024</span>
+            <span className="text-lg">25th October, 2025</span>
           </div>
           <div className="flex items-center justify-center gap-2 text-white/90">
             <MapPin className="w-5 h-5" />
-            <span className="text-lg">Grand Celebration Venue</span>
+            <span className="text-lg">Grand Celebration Venue, Abuja</span>
           </div>
         </div>
 
@@ -61,23 +54,13 @@ export const EventHero = () => {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button 
-            size="lg" 
-            className="bg-wedding-gold hover:bg-wedding-gold/90 text-wedding-primary font-semibold px-8 py-3 text-lg shadow-gold rounded-full"
-            onClick={() => navigate('/rsvp/abc123')}
-          >
+          <Button size="lg" className="bg-wedding-gold hover:bg-wedding-gold/90 text-wedding-primary font-semibold px-8 py-3 text-lg shadow-gold" onClick={() => navigate('/rsvp/abc123')}>
             RSVP Now
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg"
-            className="border-white text-wedding-primary bg-white hover:bg-white/90 hover:text-wedding-primary px-8 py-3 text-lg rounded-full"
-            onClick={() => navigate('/gallery')}
-          >
+          <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-wedding-primary px-8 py-3 text-lg" onClick={() => navigate('/gallery')}>
             View Gallery
           </Button>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
