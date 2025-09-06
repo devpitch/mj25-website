@@ -37,8 +37,10 @@ const RSVP = () => {
 
         const variables = { input: { code: id } };
 
+       const API_URL = import.meta.env.VITE_API_URL;
+
         const response = await axios.post(
-          "/graphql", // proxy handles base URL
+           API_URL,
           { query, variables },
           { headers: { "Content-Type": "application/json" } }
         );

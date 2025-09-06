@@ -25,7 +25,9 @@ interface Guest {
 }
 
 export const PhotoGallery = () => {
-  const [activeTab, setActiveTab] = useState<"invitation" | "general" | "personal">("invitation");
+  const [activeTab, setActiveTab] = useState<
+    "invitation" | "general" | "personal"
+  >("invitation");
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +38,10 @@ export const PhotoGallery = () => {
   const [limit, setLimit] = useState(16); // Will be updated from API
   const [totalPages, setTotalPages] = useState(1);
 
-  const [viewModal, setViewModal] = useState<{ open: boolean; url: string | null }>({ open: false, url: null });
+  const [viewModal, setViewModal] = useState<{
+    open: boolean;
+    url: string | null;
+  }>({ open: false, url: null });
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -67,11 +72,24 @@ export const PhotoGallery = () => {
         `;
         const variables = { input: { code } };
 
-        const response = await axios.post("/graphql", { query, variables }, { headers: { "Content-Type": "application/json" } });
+        const API_URL = import.meta.env.VITE_API_URL;
+
+        const response = await axios.post(
+          API_URL,
+          { query, variables },
+          { headers: { "Content-Type": "application/json" } }
+        );
         const data = response.data?.data?.guest;
 
-        if (!data || !data.link?.invitationCardUrl || !data.link?.guestUrl) window.location.href = "/";
-        else setGuest({ title: data.title, firstName: data.firstName, lastName: data.lastName, link: data.link });
+        if (!data || !data.link?.invitationCardUrl || !data.link?.guestUrl)
+          window.location.href = "/";
+        else
+          setGuest({
+            title: data.title,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            link: data.link,
+          });
       } catch {
         window.location.href = "/";
       } finally {
@@ -107,7 +125,13 @@ export const PhotoGallery = () => {
         `;
 
         const variables = { input: { code }, limit, page };
-        const response = await axios.post("/graphql", { query, variables }, { headers: { "Content-Type": "application/json" } });
+        const API_URL = import.meta.env.VITE_API_URL;
+
+        const response = await axios.post(
+          API_URL,
+          { query, variables },
+          { headers: { "Content-Type": "application/json" } }
+        );
 
         const galleryData = response.data?.data?.galleryFiles;
         const items: GalleryPhoto[] = galleryData?.items || [];
@@ -118,7 +142,9 @@ export const PhotoGallery = () => {
         setPage(galleryData?.page || 1);
 
         // Determine if Next button is needed
-        setTotalPages(items.length < (galleryData?.limit || 16) ? page : page + 1);
+        setTotalPages(
+          items.length < (galleryData?.limit || 16) ? page : page + 1
+        );
       } catch (err) {
         console.error("Error fetching gallery:", err);
       } finally {
@@ -135,18 +161,35 @@ export const PhotoGallery = () => {
   const renderGallery = (photos: GalleryPhoto[]) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {galleryLoading ? (
-        <p className="text-center col-span-full text-muted-foreground">Loading gallery...</p>
+        <p className="text-center col-span-full text-muted-foreground">
+          Loading gallery...
+        </p>
       ) : photos.length > 0 ? (
         photos.map((photo) => (
-          <Card key={photo._id} className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-300 relative">
+          <Card
+            key={photo._id}
+            className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-300 relative"
+          >
             <CardContent className="p-0 relative">
-              <img src={photo.url} alt="Gallery" className="aspect-square object-cover w-full" />
+              <img
+                src={photo.url}
+                alt="Gallery"
+                className="aspect-square object-cover w-full"
+              />
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Button size="sm" variant="ghost" onClick={() => setViewModal({ open: true, url: photo.url })}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setViewModal({ open: true, url: photo.url })}
+                >
                   <Camera className="w-4 h-4 text-white" /> View
                 </Button>
-                <Button size="sm" variant="ghost" onClick={() => window.open(photo.url, "_blank")}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => window.open(photo.url, "_blank")}
+                >
                   <Download className="w-4 h-4 text-white" /> Download
                 </Button>
               </div>
@@ -154,17 +197,25 @@ export const PhotoGallery = () => {
           </Card>
         ))
       ) : (
-        <p className="text-center col-span-full text-muted-foreground">No photos available yet</p>
+        <p className="text-center col-span-full text-muted-foreground">
+          No photos available yet
+        </p>
       )}
 
       {/* Pagination */}
       {photos.length === limit && (
         <div className="col-span-full flex justify-center mt-6 gap-2">
-          <Button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
+          <Button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
             Previous
           </Button>
           <span className="flex items-center px-2">{page}</span>
-          <Button onClick={() => setPage((p) => p + 1)} disabled={photos.length < limit}>
+          <Button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={photos.length < limit}
+          >
             Next
           </Button>
         </div>
@@ -177,41 +228,89 @@ export const PhotoGallery = () => {
       <div className="container mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-wedding-primary mb-4 font-poppins">MJ25</h1>
-          <p className="text-xl text-muted-foreground">Access your RSVP and captured moments from MJ&apos;s special day!</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-wedding-primary mb-4 font-poppins">
+            MJ25
+          </h1>
+          <p className="text-xl text-muted-foreground">
+            Access your RSVP and captured moments from MJ&apos;s special day!
+          </p>
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center mb-8">
           <div className="bg-white rounded-lg p-1 shadow-soft flex">
-            <Button variant={activeTab === "invitation" ? "default" : "ghost"} onClick={() => setActiveTab("invitation")}
-              className={activeTab === "invitation" ? "bg-wedding-gold text-white shadow-gold" : "text-wedding-primary"}>Invitation</Button>
-            <Button variant={activeTab === "general" ? "default" : "ghost"} onClick={() => setActiveTab("general")}
-              className={activeTab === "general" ? "bg-wedding-gold text-white shadow-gold" : "text-wedding-primary"}>General Gallery</Button>
-            <Button variant={activeTab === "personal" ? "default" : "ghost"} onClick={() => setActiveTab("personal")}
-              className={activeTab === "personal" ? "bg-wedding-gold text-white shadow-gold" : "text-wedding-primary"}>Your Photos</Button>
+            <Button
+              variant={activeTab === "invitation" ? "default" : "ghost"}
+              onClick={() => setActiveTab("invitation")}
+              className={
+                activeTab === "invitation"
+                  ? "bg-wedding-gold text-white shadow-gold"
+                  : "text-wedding-primary"
+              }
+            >
+              Invitation
+            </Button>
+            <Button
+              variant={activeTab === "general" ? "default" : "ghost"}
+              onClick={() => setActiveTab("general")}
+              className={
+                activeTab === "general"
+                  ? "bg-wedding-gold text-white shadow-gold"
+                  : "text-wedding-primary"
+              }
+            >
+              General Gallery
+            </Button>
+            <Button
+              variant={activeTab === "personal" ? "default" : "ghost"}
+              onClick={() => setActiveTab("personal")}
+              className={
+                activeTab === "personal"
+                  ? "bg-wedding-gold text-white shadow-gold"
+                  : "text-wedding-primary"
+              }
+            >
+              Your Photos
+            </Button>
           </div>
         </div>
 
         {/* Invitation */}
         {activeTab === "invitation" && (
           <div className="text-center max-w-3xl mx-auto">
-            {loading ? <p className="text-muted-foreground">Loading invitation...</p> :
-              guest ? (
-                <div>
-                  <h2 className="text-2xl font-bold text-wedding-primary mb-4">{guest.title} {guest.firstName} {guest.lastName}, you are invited!</h2>
-                  <img src={guest.link.invitationCardUrl} alt="Invitation" className="rounded-lg shadow-lg mx-auto mb-6 w-full max-w-md" />
-                  <div className="flex justify-center gap-4">
-                    <Button onClick={() => window.open(guest.link.invitationCardUrl, "_blank")} className="bg-wedding-gold text-white shadow-gold">
-                      <Download className="w-4 h-4 mr-2" /> Download
-                    </Button>
-                    <Button onClick={() => copyToClipboard(guest.link.guestUrl)} className="bg-wedding-gold text-white shadow-gold">
-                      <Copy className="w-4 h-4 mr-2" /> Copy Link
-                    </Button>
-                  </div>
+            {loading ? (
+              <p className="text-muted-foreground">Loading invitation...</p>
+            ) : guest ? (
+              <div>
+                <h2 className="text-2xl font-bold text-wedding-primary mb-4">
+                  {guest.title} {guest.firstName} {guest.lastName}, you are
+                  invited!
+                </h2>
+                <img
+                  src={guest.link.invitationCardUrl}
+                  alt="Invitation"
+                  className="rounded-lg shadow-lg mx-auto mb-6 w-full max-w-md"
+                />
+                <div className="flex justify-center gap-4">
+                  <Button
+                    onClick={() =>
+                      window.open(guest.link.invitationCardUrl, "_blank")
+                    }
+                    className="bg-wedding-gold text-white shadow-gold"
+                  >
+                    <Download className="w-4 h-4 mr-2" /> Download
+                  </Button>
+                  <Button
+                    onClick={() => copyToClipboard(guest.link.guestUrl)}
+                    className="bg-wedding-gold text-white shadow-gold"
+                  >
+                    <Copy className="w-4 h-4 mr-2" /> Copy Link
+                  </Button>
                 </div>
-              ) : <p className="text-red-500 font-semibold">Guest not found</p>
-            }
+              </div>
+            ) : (
+              <p className="text-red-500 font-semibold">Guest not found</p>
+            )}
           </div>
         )}
 
@@ -219,31 +318,30 @@ export const PhotoGallery = () => {
         {activeTab === "general" && renderGallery(generalPhotos)}
         {activeTab === "personal" && renderGallery(personalPhotos)}
 
-      {/* View Modal */}
-{viewModal.open && viewModal.url && (
-  <div
-    className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
-    onClick={() => setViewModal({ open: false, url: null })} // Click outside closes modal
-  >
-    <div
-      className="relative bg-white rounded-lg shadow-lg p-4 max-w-[90vw] max-h-[80vh] flex justify-center items-center"
-      onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
-    >
-      <Button
-        className="absolute top-2 right-2"
-        onClick={() => setViewModal({ open: false, url: null })}
-      >
-        <X className="w-5 h-5" />
-      </Button>
-      <img
-        src={viewModal.url}
-        alt="Preview"
-        className="max-w-full max-h-[70vh] object-contain rounded"
-      />
-    </div>
-  </div>
-)}
-
+        {/* View Modal */}
+        {viewModal.open && viewModal.url && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
+            onClick={() => setViewModal({ open: false, url: null })} // Click outside closes modal
+          >
+            <div
+              className="relative bg-white rounded-lg shadow-lg p-4 max-w-[90vw] max-h-[80vh] flex justify-center items-center"
+              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+            >
+              <Button
+                className="absolute top-2 right-2"
+                onClick={() => setViewModal({ open: false, url: null })}
+              >
+                <X className="w-5 h-5" />
+              </Button>
+              <img
+                src={viewModal.url}
+                alt="Preview"
+                className="max-w-full max-h-[70vh] object-contain rounded"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

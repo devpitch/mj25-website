@@ -46,9 +46,11 @@ export const EventHero = () => {
           },
         };
 
+       const API_URL = import.meta.env.VITE_API_URL;
+
         // ✅ Call proxy instead of remote URL
         const response = await axios.post(
-          "/graphql",
+          API_URL,
           { query, variables },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -80,7 +82,7 @@ export const EventHero = () => {
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
           <div className="md:mb-0">
             <img
-              src="/lovable-uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png"
+              src="/uploads/c1317d0c-7591-4640-9b42-865bd23e58f7.png"
               alt="MJ 25th Wedding Logo"
               className="w-32 h-32 md:w-40 md:h-40 drop-shadow-2xl"
             />
