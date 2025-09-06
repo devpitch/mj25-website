@@ -6,7 +6,7 @@ import { Calendar, MapPin, Heart } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const EventHero = () => {
-  const eventDate = "2025-10-25T18:00:00";
+  const eventDate = "2025-10-25T10:00:00";
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -97,7 +97,7 @@ export const EventHero = () => {
             <div className="flex items-center justify-center gap-2 mt-4">
               <Heart className="w-6 h-6 text-wedding-gold" />
               <span className="text-wedding-gold font-medium">
-                A Milestone Worth Celebrating
+                A Love Journey Worth Celebrating
               </span>
               <Heart className="w-6 h-6 text-wedding-gold" />
             </div>

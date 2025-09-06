@@ -4,16 +4,11 @@ A modern web application built with **React + TypeScript** for managing wedding 
 
 ## Table of Contents
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Setup & Installation](#setup--installation)
-- [Environment Variables](#environment-variables)
-- [Running the Project](#running-the-project)
-- [Deployment](#deployment)
-- [Folder Structure](#folder-structure)
-- [Usage](#usage)
-- [CORS Considerations](#cors-considerations)
-- [License](#license)
+- [MJ25 Wedding Invitation \& Photo Gallery](#mj25-wedding-invitation--photo-gallery)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+  - [Setup \& Installation](#setup--installation)
 
 ---
 
@@ -46,5 +41,5 @@ A modern web application built with **React + TypeScript** for managing wedding 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/mj25-wedding.git
-cd mj25-wedding
+git clone git@github.com:devpitch/mj25-website.git
+cd mj25-website

@@ -1,0 +1,57 @@
+name: Deploy Production
+
+on:
+  release:
+    branches:
+      - main
+    types:
+      - published
+  deployment:
+  workflow_dispatch:
+
+jobs:
+  build-image:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set Commit ID
+        run: echo "COMMIT_ID=$(echo ${{ github.sha }} | tail -c 11)" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image to ECR
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.production
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/rydmie/mj25-website:${{ env.COMMIT_ID }}
+
+  deploy:
+    needs: [build-image]
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Commit ID
+        run: echo "COMMIT_ID=$(echo ${{ github.sha }} | tail -c 11)" >> $GITHUB_ENV
+
+      - name: Deploy on EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_ADDRESS }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            sudo /deploy-production.sh -t ${{ env.COMMIT_ID }} -a mj25-website
