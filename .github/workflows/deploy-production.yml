@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile.production
+          file: Dockerfile
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/rydmie/mj25-website:${{ env.COMMIT_ID }}
 
