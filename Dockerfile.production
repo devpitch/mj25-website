@@ -1,22 +1,21 @@
-
-FROM node:22-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json .
+COPY package*.json ./
+RUN npm install --production
 
-RUN npm install
-
-RUN npm i -g serve
+# Install a simple static file server
+RUN npm install -g serve
 
 COPY . .
 
+# Build Vite app
 RUN npm run build
 
+# Serve built files
 EXPOSE 1025
-
-CMD [ "serve", "-s", "dist", "-l", "1025", "--host", "0.0.0.0" ]
-
+CMD ["serve", "-s", "dist", "-l", "1025"]
 # # Stage 1: Build
 # FROM node:24-slim AS builder
 
