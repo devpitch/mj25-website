@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     port: 1025,
     proxy: {
       "/graphql": {
-        target: "https://testing.mj25.rsvp",
+        target: "https://wizard.mj25.rsvp",
         changeOrigin: true,
         secure: false,
       },
