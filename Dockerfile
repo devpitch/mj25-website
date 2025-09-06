@@ -1,68 +1,16 @@
+FROM node:18-alpine AS build
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
 FROM node:18-alpine
 
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install --production
-
-# Install a simple static file server
 RUN npm install -g serve
+COPY --from=build /app/dist ./dist
 
-COPY . .
-
-# Build Vite app
-RUN npm run build
-
-# Serve built files
 EXPOSE 1025
 CMD ["serve", "-s", "dist", "-l", "1025"]
-# # Stage 1: Build
-# FROM node:24-slim AS builder
-
-# WORKDIR /usr/src/app
-
-# # Install dependencies
-# RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
-
-# # Copy monorepo configuration files
-# COPY package.json pnpm-lock.yaml ./
-# COPY tsconfig.json tsconfig.json
-
-# COPY . .
-
-# # Install dependencies and build the specific app
-# RUN npm install --frozen-lockfile
-# RUN npm run build
-
-# # Stage 2: Production
-# FROM node:24-slim
-
-# WORKDIR /usr/src/app
-
-# # Install runtime dependencies
-# RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
-
-# # Copy only the built app and necessary files
-# ARG APP_NAME
-# COPY --from=builder /usr/src/app/dist ./dist
-# COPY --from=builder /usr/src/app/config-production.yaml ./config.yaml
-# COPY --from=builder /usr/src/app/package.json ./package.json
-# COPY --from=builder /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
-# COPY --from=builder /usr/src/app/assets ./assets
-
-# # Install only production dependencies
-# RUN pnpm install --prod --frozen-lockfile
-
-# # Set environment to production
-# ENV NODE_ENV=production
-
-# # Pass port as a build argument
-# ARG PORT=2510
-# ENV PORT=${PORT}
-# EXPOSE ${PORT}
-
-# # Start the app
-# # CMD ["pnpm", "run", "start:prod"]
-# CMD ["node","dist/src/main"]
-
-
