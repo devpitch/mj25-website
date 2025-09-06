@@ -1,45 +1,76 @@
-import { useParams } from 'react-router-dom';
-import { RSVPForm } from '@/components/RSVPForm';
-import { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle } from 'lucide-react';
+import { useParams } from "react-router-dom";
+import { RSVPForm } from "@/components/RSVPForm";
+import { useEffect, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { AlertTriangle } from "lucide-react";
+import axios from "axios";
 
 const RSVP = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // inviteCode comes as :id
   const [isValidLink, setIsValidLink] = useState<boolean | null>(null);
   const [guestData, setGuestData] = useState<any>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
-    // Validate RSVP link and get guest data
     const validateLink = async () => {
       if (!id) {
         setIsValidLink(false);
+        setErrorMessage("Invitation code is missing.");
         return;
       }
 
       try {
-        // Here you would normally validate the link with your backend
-        // For now, we'll simulate validation
-        console.log('Validating RSVP link:', id);
-        
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock validation - in real app, this would check database
-        const validIds = ['abc123', 'def456', 'ghi789'];
-        const isValid = validIds.includes(id);
-        
-        setIsValidLink(isValid);
-        
-        if (isValid) {
-          // Mock guest data
-          setGuestData({
-            maxGuests: 4,
-            alreadyRegistered: false
-          });
+        const query = `
+          query InvitationLink($input: SimpleInput!) {
+            invitationLink(input: $input) {
+              _id
+              code
+              guestSize
+              guestPerEntry
+              guestsRegistered
+              type
+              status
+              inviteUrl
+            }
+          }
+        `;
+
+        const variables = { input: { code: id } };
+
+        const response = await axios.post(
+          "/graphql", // proxy handles base URL
+          { query, variables },
+          { headers: { "Content-Type": "application/json" } }
+        );
+
+        const invitation = response.data?.data?.invitationLink;
+
+        if (!invitation) {
+          setIsValidLink(false);
+          setErrorMessage("This invitation link was not found.");
+          return;
         }
+
+        // Allowed statuses
+        const allowedStatuses = ["IN_PROGRESS", "UNUSED", "SHARED"];
+        if (!allowedStatuses.includes(invitation.status)) {
+          setIsValidLink(false);
+          setErrorMessage(
+            `This invitation link is no longer valid (Status: ${invitation.status}).`
+          );
+          return;
+        }
+
+        // valid link
+        setIsValidLink(true);
+        setGuestData({
+          maxGuests: invitation.guestPerEntry,
+          ...invitation,
+        });
       } catch (error) {
+        console.error("Error validating RSVP link:", error);
         setIsValidLink(false);
+        setErrorMessage("Something went wrong while validating your invitation.");
       }
     };
 
@@ -65,15 +96,16 @@ const RSVP = () => {
             <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertTriangle className="w-8 h-8 text-destructive" />
             </div>
-            
+
             <h2 className="text-2xl font-bold text-wedding-primary mb-4 font-poppins">
               Invalid Invitation Link
             </h2>
-            
+
             <p className="text-muted-foreground mb-6">
-              This invitation link is not valid or may have expired. Please contact the event organizers for assistance.
+              {errorMessage ||
+                "This invitation link is not valid or may have expired. Please contact the event organizers for assistance."}
             </p>
-            
+
             <a href="/" className="text-wedding-gold hover:underline">
               Return to Home
             </a>
@@ -84,9 +116,10 @@ const RSVP = () => {
   }
 
   return (
-    <RSVPForm 
-      maxGuests={guestData?.maxGuests || 4} 
-      guestId={id} 
+    <RSVPForm
+      maxGuests={guestData?.maxGuests || 1}
+      guestId={id}
+      invitationLinkId={guestData?._id}
     />
   );
 };
