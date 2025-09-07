@@ -165,6 +165,9 @@ export const RSVPForm = ({
         title: "RSVP Submitted Successfully!",
         description: "Your invitation has been created 🎉",
       });
+
+      const inviteCode = localStorage.getItem(btoa("invite-code"));
+      localStorage.setItem(btoa("invite-submitted"), inviteCode);
     } catch (error: any) {
       toast({
         title: "Error submitting RSVP",

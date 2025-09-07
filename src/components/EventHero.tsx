@@ -12,6 +12,7 @@ export const EventHero = () => {
 
   const [inviteStatus, setInviteStatus] = useState<string | null>(null);
   const [inviteCode, setInviteCode] = useState<string | null>(null); 
+  const [inviteSubmitted, setSubmitted] = useState<boolean | null>(null); 
   const [loading, setLoading] = useState(true);
 
   // Allowed statuses where button should show
@@ -23,7 +24,17 @@ export const EventHero = () => {
         // Extract invite code from URL ?invite=xxxx
         const searchParams = new URLSearchParams(location.search);
         const inviteCode = searchParams.get("invite");
+
         setInviteCode(inviteCode);
+        if (inviteCode) {
+          const inviteSubmitted = localStorage.getItem(btoa("invite-submitted"));
+          localStorage.setItem(btoa("invite-code"), btoa(inviteCode));
+          if (inviteSubmitted && inviteSubmitted === btoa(inviteCode)) {
+            setSubmitted(true);
+          } else {
+            setSubmitted(false);
+          }
+        }
 
         if (!inviteCode) {
           setInviteStatus(null);
@@ -125,7 +136,7 @@ export const EventHero = () => {
         </div>
 
         {/* RSVP button */}
-        {!loading && inviteStatus && allowedStatuses.includes(inviteStatus) && (
+        {!loading && !inviteSubmitted && inviteStatus && allowedStatuses.includes(inviteStatus) && (
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
