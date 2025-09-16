@@ -10,6 +10,7 @@ interface GalleryPhoto {
   url: string;
   isGeneral: boolean;
   isConfirmed: boolean;
+  tags?: Guest[];
 }
 
 interface GuestLink {
@@ -18,6 +19,7 @@ interface GuestLink {
 }
 
 interface Guest {
+  _id: string;
   title: string;
   firstName: string;
   lastName: string;
@@ -60,6 +62,7 @@ export const PhotoGallery = () => {
         const query = `
           query Guest($input: FetchGuestInput!) {
             guest(input: $input) {
+              _id
               title
               firstName
               lastName
@@ -85,6 +88,7 @@ export const PhotoGallery = () => {
           window.location.href = "/";
         else
           setGuest({
+            _id: data._id,
             title: data.title,
             firstName: data.firstName,
             lastName: data.lastName,
@@ -118,6 +122,9 @@ export const PhotoGallery = () => {
                 url
                 isGeneral
                 isConfirmed
+                tags {
+                  _id
+                }
               }
               limit
               page
@@ -157,7 +164,7 @@ export const PhotoGallery = () => {
   }, [activeTab, page]);
 
   const generalPhotos = galleryPhotos.filter((p) => p.isGeneral);
-  const personalPhotos = galleryPhotos.filter((p) => !p.isGeneral);
+  const personalPhotos = galleryPhotos.filter((p) => p.tags.some((t) => t._id === guest._id));
 
   const renderGallery = (photos: GalleryPhoto[]) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
