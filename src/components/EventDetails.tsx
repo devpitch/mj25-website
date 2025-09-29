@@ -6,7 +6,7 @@ const eventPhases = [
     icon: Camera,
     title: "Engagement",
     time: "7:00 AM",
-    location: "C24, New Transformer After Alfa Block, Kuduru Extension Bwari - Abuja",
+    location: "Nigerian Law School, Bwari, Abuja (Dinner Hall)",
     description: "Capture beautiful moments as we celebrate our love",
   },
   {
