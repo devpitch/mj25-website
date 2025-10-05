@@ -136,7 +136,7 @@ export const EventHero = () => {
         </div>
 
         {/* RSVP button */}
-        {!loading && /*!inviteSubmitted && */ inviteStatus && allowedStatuses.includes(inviteStatus) && (
+        {!loading && !inviteSubmitted && inviteStatus && allowedStatuses.includes(inviteStatus) && (
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
