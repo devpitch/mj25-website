@@ -110,7 +110,6 @@ export const PhotoGallery = () => {
       try {
         setGalleryLoading(true);
         const path = window.location.pathname;
-        console.log(window.location);
         const code = path.split("/").pop();
         if (!code) return;
 
