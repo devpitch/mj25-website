@@ -29,7 +29,7 @@ interface Guest {
 export const PhotoGallery = () => {
   const [activeTab, setActiveTab] = useState<
     "invitation" | "general" | "personal"
-  >("invitation");
+  >("general");
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState(true);
 
