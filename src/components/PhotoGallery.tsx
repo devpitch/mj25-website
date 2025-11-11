@@ -164,7 +164,7 @@ export const PhotoGallery = () => {
     if (activeTab === "general" || activeTab === "personal") fetchGallery();
   }, [activeTab, page]);
 
-  const generalPhotos = galleryPhotos.filter((p) => p.isGeneral);
+  const generalPhotos = galleryPhotos //.filter((p) => p.isGeneral);
   const personalPhotos = galleryPhotos.filter((p) => p.tags.some((t) => t._id === guest?._id));
 
   const renderGallery = (photos: GalleryPhoto[]) => (

@@ -147,6 +147,13 @@ export const EventHero = () => {
             </Button>
           </div>
         )}
+        <Button
+              size="lg"
+              className="rounded-full bg-wedding-gold hover:bg-wedding-gold/90 text-wedding-primary font-semibold px-8 py-3 text-lg shadow-gold"
+              onClick={() =>  navigate(`/gallery`)}
+            >
+              View Gallery
+            </Button>
       </div>
     </section>
   );
