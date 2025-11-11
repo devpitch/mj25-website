@@ -103,7 +103,7 @@ export const PhotoGallery = () => {
       }
     };
 
-    if (activeTab === "invitation") fetchGuest();
+    fetchGuest();
   }, [activeTab]);
 
   // Fetch gallery with pagination
@@ -165,7 +165,7 @@ export const PhotoGallery = () => {
   }, [activeTab, page]);
 
   const generalPhotos = galleryPhotos.filter((p) => p.isGeneral);
-  const personalPhotos = galleryPhotos.filter((p) => p.tags.some((t) => t._id === guest._id));
+  const personalPhotos = galleryPhotos.filter((p) => p.tags.some((t) => t._id === guest?._id));
 
   const renderGallery = (photos: GalleryPhoto[]) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
