@@ -37,6 +37,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<GuestRedirect />} />
           <Route path="/rsvp/:id" element={<RSVP />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/guest/:id" element={<Gallery />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

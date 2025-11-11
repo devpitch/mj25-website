@@ -129,9 +129,9 @@ export const EventHero = () => {
 
         {/* Countdown */}
         <div className="mb-12">
-          <h3 className="text-xl text-white/90 mb-6 font-medium">
+          {/* <h3 className="text-xl text-white/90 mb-6 font-medium">
             Celebration Begins In
-          </h3>
+          </h3> */}
           <CountdownTimer targetDate={eventDate} />
         </div>
 

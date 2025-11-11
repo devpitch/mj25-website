@@ -84,9 +84,10 @@ export const PhotoGallery = () => {
         );
         const data = response.data?.data?.guest;
 
-        if (!data || !data.link?.invitationCardUrl || !data.link?.guestUrl)
-          window.location.href = "/";
-        else
+        if (!data || !data.link?.invitationCardUrl || !data.link?.guestUrl) {
+          // window.location.href = "/";
+        }
+        else {
           setGuest({
             _id: data._id,
             title: data.title,
@@ -94,6 +95,7 @@ export const PhotoGallery = () => {
             lastName: data.lastName,
             link: data.link,
           });
+        }
       } catch {
         window.location.href = "/";
       } finally {
@@ -205,12 +207,12 @@ export const PhotoGallery = () => {
         ))
       ) : (
         <p className="text-center col-span-full text-muted-foreground">
-          No photos available yet
+          You do not have personal photos yet
         </p>
       )}
 
       {/* Pagination */}
-      {photos.length === limit && (
+      {/* {photos.length === limit && ( */}
         <div className="col-span-full flex justify-center mt-6 gap-2">
           <Button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -226,7 +228,7 @@ export const PhotoGallery = () => {
             Next
           </Button>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 
@@ -246,17 +248,6 @@ export const PhotoGallery = () => {
         {/* Tabs */}
         <div className="flex justify-center mb-8">
           <div className="bg-white rounded-lg p-1 shadow-soft flex">
-            <Button
-              variant={activeTab === "invitation" ? "default" : "ghost"}
-              onClick={() => setActiveTab("invitation")}
-              className={
-                activeTab === "invitation"
-                  ? "bg-wedding-gold text-white shadow-gold"
-                  : "text-wedding-primary"
-              }
-            >
-              Invitation
-            </Button>
             <Button
               variant={activeTab === "general" ? "default" : "ghost"}
               onClick={() => setActiveTab("general")}
@@ -279,8 +270,23 @@ export const PhotoGallery = () => {
             >
               Your Photos
             </Button>
+            <Button
+              variant={activeTab === "invitation" ? "default" : "ghost"}
+              onClick={() => setActiveTab("invitation")}
+              className={
+                activeTab === "invitation"
+                  ? "bg-wedding-gold text-white shadow-gold"
+                  : "text-wedding-primary"
+              }
+            >
+              Invitation
+            </Button>
           </div>
         </div>
+
+        {/* Galleries */}
+        {activeTab === "general" && renderGallery(generalPhotos)}
+        {activeTab === "personal" && renderGallery(personalPhotos)}
 
         {/* Invitation */}
         {activeTab === "invitation" && (
@@ -320,10 +326,6 @@ export const PhotoGallery = () => {
             )}
           </div>
         )}
-
-        {/* Galleries */}
-        {activeTab === "general" && renderGallery(generalPhotos)}
-        {activeTab === "personal" && renderGallery(personalPhotos)}
 
         {/* View Modal */}
         {viewModal.open && viewModal.url && (

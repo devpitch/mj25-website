@@ -9,18 +9,21 @@ interface CountdownTimerProps {
   targetDate: string;
 }
 
+let timeDifference = 0;
+
 export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
   const [timeLeft, setTimeLeft] = useState<TimeUnit[]>([]);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const difference = +new Date(targetDate) - +new Date();
+      timeDifference = difference;
 
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((difference / 1000 / 60) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
+      // if (difference > 0) {
+        const days = Math.abs(Math.floor(difference / (1000 * 60 * 60 * 24)));
+        const hours = Math.abs(Math.floor((difference / (1000 * 60 * 60)) % 24));
+        const minutes = Math.abs(Math.floor((difference / 1000 / 60) % 60));
+        const seconds = Math.abs(Math.floor((difference / 1000) % 60));
 
         setTimeLeft([
           { value: days, label: "Days" },
@@ -28,9 +31,9 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
           { value: minutes, label: "Minutes" },
           { value: seconds, label: "Seconds" },
         ]);
-      } else {
-        setTimeLeft([]);
-      }
+      // } else {
+      //   setTimeLeft([]);
+      // }
     };
 
     calculateTimeLeft();
@@ -49,6 +52,10 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
   }
 
   return (
+    <h3 className="text-xl text-white/90 mb-6 font-medium">
+          {timeDifference > 0 ? 'Celebration Begins In' : 'Celebration Began'}
+    </h3>,
+
     <div className="flex gap-2 sm:gap-4 justify-center flex-nowrap overflow-x-auto">
   {timeLeft.map((unit, index) => (
     <div
